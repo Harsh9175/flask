@@ -1,0 +1,46 @@
+ADD file ... in /
+
+CMD ["/bin/sh"]
+
+ENV PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+ENV LANG=C.UTF-8
+
+RUN /bin/sh -c set -eux;
+
+ENV GPG_KEY=0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+
+ENV PYTHON_VERSION=3.7.17
+
+RUN /bin/sh -c set -eux;
+
+RUN /bin/sh -c set -eux;
+
+ENV PYTHON_PIP_VERSION=23.0.1
+
+ENV PYTHON_SETUPTOOLS_VERSION=57.5.0
+
+ENV PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/0d8570dc44796f4369b652222cf176b3db6ac70e/public/get-pip.py
+
+ENV PYTHON_GET_PIP_SHA256=96461deced5c2a487ddc65207ec5a9cffeca0d34e7af7ea1afc470ff0d746207
+
+RUN /bin/sh -c set -eux;
+
+CMD ["python3"]
+
+WORKDIR /code
+
+ENV FLASK_APP=app.py
+
+ENV FLASK_RUN_HOST=0.0.0.0
+
+/bin/sh -c apk add --no-cache
+
+COPY file:4346cf08412270cb20aaf46efca3e3597bb003f0ff62d669588a4c5749378044 in requirements.txt
+
+/bin/sh -c pip install -r
+
+EXPOSE 5000
+
+COPY dir:634b6ddbb77c7d7e93015fbeab094dc608cd15bdadf31b179e436a7140329edf in .
+CMD ["flask" "run"]
